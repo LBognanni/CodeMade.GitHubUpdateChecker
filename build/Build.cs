@@ -66,6 +66,13 @@ class Build : NukeBuild
                 .EnableNoRestore());
         });
 
+    Target Test => _ => _
+        .DependsOn(Compile)
+        .Executes(() =>
+        {
+            DotNetTest(s => s.SetProjectFile(Solution));
+        });
+
     Target Pack => _ => _
         .DependsOn(Compile)
         .Produces(ArtifactsDirectory / "*.nupkg")
@@ -87,5 +94,17 @@ class Build : NukeBuild
                 .SetInformationalVersion(GitVersion.InformationalVersion)
                 .SetOutputDirectory(ArtifactsDirectory));
 
+        });
+
+    Target Push => _ => _
+        .DependsOn(Pack)
+        .Requires(() => Configuration.Equals(Configuration.Release))
+        .Requires(() => GitRepository.IsOnMainBranch())
+        .Executes(() =>
+        {
+            DotNetNuGetPush(s => s
+                .SetTargetPath(ArtifactsDirectory / "*.nupkg")
+                .SetSource("https://api.nuget.org/v3/index.json")
+                .SetApiKey(Environment.GetEnvironmentVariable("NUGET_API_KEY")));
         });
 }

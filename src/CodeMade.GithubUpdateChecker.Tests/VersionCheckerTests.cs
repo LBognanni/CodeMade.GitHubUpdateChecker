@@ -6,6 +6,7 @@ using NUnit.Framework;
 
 namespace CodeMade.GithubUpdateChecker.Tests;
 
+[TestFixture]
 public class VersionCheckerTests
 {
     private VersionChecker _sut;
@@ -63,7 +64,7 @@ public class VersionCheckerTests
     [Test]
     public async Task WhenThereWasAnErrorRetrievingVersion_ItDoesNotNotify()
     {
-        _versionGetter.Setup(x => x.GetLatestVersion()).ReturnsAsync((Version)null);
+        _versionGetter.Setup(x => x.GetLatestVersion()).ReturnsAsync((Version?)null);
         await _sut.NotifyIfNewVersion();
         _notifier.Verify(_notifierExpression, Times.Never);
         _tempData.Verify(x=>x.Read<DateTime>(VersionChecker.LASTNOTIFICATIONDATE), Times.Never);

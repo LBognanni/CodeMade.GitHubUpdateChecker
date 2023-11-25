@@ -18,7 +18,7 @@ public class GitHubVersionGetter : IVersionGetter
 
         using var client = new HttpClient(clientHandler);
         var response = await client.GetAsync($"https://github.com/{RepositoryOwner}/{RepositoryName}/releases/latest", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-        var latestVersion = response.Headers.Location.AbsolutePath.Split("/".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Last();
+        var latestVersion = (response?.Headers?.Location?.AbsolutePath ?? "").Split("/".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Last();
         if (Version.TryParse(latestVersion, out var v))
         {
             return v;

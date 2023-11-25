@@ -37,10 +37,10 @@ public class FileBasedTempDataTests
         var sut = new FileBasedTempData();
         sut.EnsureEmpty();
         var n = sut.Read<int>("aa");
-        Assert.AreEqual(0, n);
+        Assert.That(n, Is.EqualTo(0));
         
         var s = sut.Read<string>("aab");
-        Assert.IsNull(s);
+        Assert.That(s, Is.Null);
     }
 
     [Test]

@@ -20,6 +20,6 @@ public class GitHubVersionGetterTests
     {
         var version = await (new GitHubVersionGetter("LBognanni", "ImageViewer")).GetLatestVersion();
         Assert.IsNotNull(version);
-        Assert.AreEqual(new Version(1,10,0), version);
+        Assert.That(version, Is.EqualTo(new Version(1,10,0)));
     }
 }
