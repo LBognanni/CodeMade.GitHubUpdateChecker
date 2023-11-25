@@ -10,3 +10,5 @@ publish
 launchSettings.json
 .tmp
 Output
+.nuke/temp
+artifacts
