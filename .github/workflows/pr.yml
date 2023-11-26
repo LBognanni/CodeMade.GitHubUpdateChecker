@@ -1,0 +1,25 @@
+name: Build and Release
+
+on:
+  pull_request:
+
+jobs:
+
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        fetch-depth: '0'
+
+    - name: Install .net
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: "6.x"
+
+    - name: Build and release
+      run: |
+        ./build.sh Test
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
