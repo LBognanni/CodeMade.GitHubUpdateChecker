@@ -24,7 +24,7 @@ jobs:
         DEFAULT_BUMP: patch
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     needs: tag
     steps:
     - uses: actions/checkout@v4
@@ -37,8 +37,9 @@ jobs:
         dotnet-version: "6.x"
 
     - name: Build and release
+      shell: pwsh
       run: |
-        ./build.sh push
+        .\build.ps1 push
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}  
