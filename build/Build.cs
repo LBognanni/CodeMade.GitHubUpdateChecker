@@ -51,6 +51,8 @@ class Build : NukeBuild
         .Executes(() =>
         {
             DotNetRestore(s => s
+                .SetForce(true)
+                .SetNoCache(true)
                 .SetProjectFile(Solution));
         });
 

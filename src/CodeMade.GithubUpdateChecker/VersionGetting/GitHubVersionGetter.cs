@@ -1,4 +1,6 @@
-﻿namespace CodeMade.GithubUpdateChecker;
+﻿using System.Net.Http;
+
+namespace CodeMade.GithubUpdateChecker;
 
 public class GitHubVersionGetter : IVersionGetter
 {
