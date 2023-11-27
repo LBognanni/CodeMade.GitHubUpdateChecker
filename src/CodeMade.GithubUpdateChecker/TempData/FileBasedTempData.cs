@@ -7,9 +7,13 @@ public class FileBasedTempData : ITempData
 {
     private readonly string _fileName;
 
-    public FileBasedTempData()
+    public FileBasedTempData() : this(Assembly.GetExecutingAssembly().GetName().Name + "_updates.tmp")
     {
-        _fileName = Assembly.GetExecutingAssembly().GetName().Name + "_updates.tmp";
+    }
+
+    public FileBasedTempData(string fileName)
+    {
+        _fileName = fileName;
         EnsureEmpty();
     }
 

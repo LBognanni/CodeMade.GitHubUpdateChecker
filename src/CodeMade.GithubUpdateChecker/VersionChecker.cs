@@ -38,7 +38,7 @@ public class VersionChecker
     {
         var getter = new GitHubVersionGetter(repositoryOwner, repositoryName);
         var notifier = new WindowsNotification();
-        var tempDataProvider = new FileBasedTempData();
+        var tempDataProvider = new FileBasedTempData($"{repositoryOwner}.{repositoryName}.tmp");
         return new VersionChecker(getter, currentVersion, notifier, tempDataProvider, appName);
     }
 }
