@@ -4,14 +4,16 @@ namespace CodeMade.GithubUpdateChecker;
 
 public class GitHubVersionGetter : IVersionGetter
 {
-    public GitHubVersionGetter(string repositoryOwner, string repositoryName)
+    public GitHubVersionGetter(string repositoryOwner, string repositoryName, string? prefix = null)
     {
         RepositoryOwner = repositoryOwner;
         RepositoryName = repositoryName;
+        Prefix = prefix;
     }
 
     public string RepositoryOwner { get; }
     public string RepositoryName { get; }
+    public string? Prefix { get; }
 
     public async Task<Version?> GetLatestVersion()
     {
@@ -21,6 +23,12 @@ public class GitHubVersionGetter : IVersionGetter
         using var client = new HttpClient(clientHandler);
         var response = await client.GetAsync($"https://github.com/{RepositoryOwner}/{RepositoryName}/releases/latest", HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
         var latestVersion = (response?.Headers?.Location?.AbsolutePath ?? "").Split("/".ToCharArray(), StringSplitOptions.RemoveEmptyEntries).Last();
+        
+        if (!string.IsNullOrEmpty(Prefix) && latestVersion.StartsWith(Prefix))
+        {
+            latestVersion = latestVersion.Substring(Prefix.Length);
+        }
+
         if (Version.TryParse(latestVersion, out var v))
         {
             return v;
@@ -30,5 +38,5 @@ public class GitHubVersionGetter : IVersionGetter
     }
 
     public string GetReleaseUrl(Version newVersion) =>
-        $"https://github.com/{RepositoryOwner}/{RepositoryName}/releases/tag/{newVersion.Major}.{newVersion.Minor}.{newVersion.Build}";
+        $"https://github.com/{RepositoryOwner}/{RepositoryName}/releases/tag/{Prefix}{newVersion.Major}.{newVersion.Minor}.{newVersion.Build}";
 }

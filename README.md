@@ -14,5 +14,4 @@ Task.Run(() => checker.NotifyIfNewVersion());
 
 Some notes about defaults:
 - By default, the checker will only notify the user once per day. You can change this by setting the `NotificationFrequency` property.	
-- By default, the checker will use a temp file to store the last time it notified the user. You can change this by passing a custom class that implements `INotificationStorage` to the constructor of `VersionChecker`.
-
+- By default, the checker will use a temp file to store the last time it notified the user. You can change this by passing a custom class that implements `INotificationStorage` to the constructor of `VersionChecker`.- If your version tag has a prefix (e.g. `v1.0.0`), you should set the optional `versionPrefix` parameter in `VersionChecker.Create()` to that prefix (`v` in this example).

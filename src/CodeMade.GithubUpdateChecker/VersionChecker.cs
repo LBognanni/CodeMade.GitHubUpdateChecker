@@ -34,9 +34,9 @@ public class VersionChecker
         _tempDataProvider.Write(LASTNOTIFICATIONDATE, DateTime.Now);
     }
 
-    public static VersionChecker Create(string repositoryOwner, string repositoryName, Version currentVersion, string appName)
+    public static VersionChecker Create(string repositoryOwner, string repositoryName, Version currentVersion, string appName, string? versionPrefix = null)
     {
-        var getter = new GitHubVersionGetter(repositoryOwner, repositoryName);
+        var getter = new GitHubVersionGetter(repositoryOwner, repositoryName, versionPrefix);
         var notifier = new WindowsNotification();
         var tempDataProvider = new FileBasedTempData($"{repositoryOwner}.{repositoryName}.tmp");
         return new VersionChecker(getter, currentVersion, notifier, tempDataProvider, appName);

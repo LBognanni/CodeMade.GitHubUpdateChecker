@@ -13,6 +13,13 @@ public class GitHubVersionGetterTests
         var url = getter.GetReleaseUrl(new Version(1, 0, 0));
         Assert.That(url, Is.EqualTo("https://github.com/LBognanni/ImageViewer/releases/tag/1.0.0"));
     }
+    [Test]
+    public void GetReleaseUrl_with_v_ReturnsTheCorrectUrl()
+    {
+        var getter = new GitHubVersionGetter("LBognanni", "ImageViewer", "v");
+        var url = getter.GetReleaseUrl(new Version(1, 0, 0));
+        Assert.That(url, Is.EqualTo("https://github.com/LBognanni/ImageViewer/releases/tag/v1.0.0"));
+    }
 
     [Ignore("development only")]
     [Test]

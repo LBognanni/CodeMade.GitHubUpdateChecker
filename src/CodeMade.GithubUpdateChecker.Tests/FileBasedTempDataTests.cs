@@ -41,6 +41,9 @@ public class FileBasedTempDataTests
         
         var s = sut.Read<string>("aab");
         Assert.That(s, Is.Null);
+
+        var dt = sut.Read<DateTime>("aac");
+        Assert.That(dt, Is.EqualTo(default(DateTime)));
     }
 
     [Test]
