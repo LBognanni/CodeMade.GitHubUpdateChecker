@@ -14,7 +14,6 @@ public class FileBasedTempData : ITempData
     public FileBasedTempData(string fileName)
     {
         _fileName = fileName;
-        EnsureEmpty();
     }
 
     private string FileName => Path.Combine(Path.GetTempPath(), _fileName);
