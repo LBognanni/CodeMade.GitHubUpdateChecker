@@ -4,16 +4,21 @@ namespace CodeMade.GithubUpdateChecker;
 
 public class GitHubVersionGetter : IVersionGetter
 {
-    public GitHubVersionGetter(string repositoryOwner, string repositoryName, string? prefix = null)
+    public GitHubVersionGetter(string repositoryOwner, string repositoryName, string? prefix = null, Func<Version, string>? versionFormatter = null)
     {
         RepositoryOwner = repositoryOwner;
         RepositoryName = repositoryName;
         Prefix = prefix;
+        _versionFormatter = versionFormatter ?? DefaultVersionFormatter;
     }
+
+    private static string DefaultVersionFormatter(Version version) => $"{version.Major}.{version.Minor}.{version.Build}";
 
     public string RepositoryOwner { get; }
     public string RepositoryName { get; }
     public string? Prefix { get; }
+
+    private Func<Version, string> _versionFormatter;
 
     public async Task<Version?> GetLatestVersion()
     {
@@ -38,5 +43,5 @@ public class GitHubVersionGetter : IVersionGetter
     }
 
     public string GetReleaseUrl(Version newVersion) =>
-        $"https://github.com/{RepositoryOwner}/{RepositoryName}/releases/tag/{Prefix}{newVersion.Major}.{newVersion.Minor}.{newVersion.Build}";
+        $"https://github.com/{RepositoryOwner}/{RepositoryName}/releases/tag/{Prefix}{_versionFormatter(newVersion)}";
 }
