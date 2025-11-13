@@ -4,7 +4,7 @@ public class VersionChecker
 {
     private readonly IVersionGetter _versionGetter;
     private readonly Version _currentVersion;
-    private readonly IWindowsNotification _notifier;
+    private readonly INotificationSender _notifier;
     private readonly ITempData _tempDataProvider;
     private readonly string _appName;
     internal const string LASTNOTIFICATIONDATE = "LastVersionNotificationTime";
@@ -37,7 +37,7 @@ public class VersionChecker
     public static VersionChecker Create(string repositoryOwner, string repositoryName, Version currentVersion, string appName, string? versionPrefix = null)
     {
         var getter = new GitHubVersionGetter(repositoryOwner, repositoryName, versionPrefix);
-        var notifier = new WindowsNotification();
+        var notifier = new NotificationSender(appName);
         var tempDataProvider = new FileBasedTempData($"{repositoryOwner}.{repositoryName}.tmp");
         return new VersionChecker(getter, currentVersion, notifier, tempDataProvider, appName);
     }

@@ -1,6 +1,6 @@
 ﻿namespace CodeMade.GithubUpdateChecker;
 
-public interface IWindowsNotification
+public interface INotificationSender
 {
     void Send(string title, string message, string buttonText, string url);
 }
