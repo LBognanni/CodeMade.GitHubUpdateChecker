@@ -70,6 +70,8 @@ public class FileBasedTempData : ITempData
         }
     }
 
+    public void Clear() => EnsureEmpty();
+
     class ValueWrapper<T>
     {
         public T Value { get; set; }
