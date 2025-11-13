@@ -9,7 +9,9 @@ public class VersionChecker
     private readonly string _appName;
     internal const string LASTNOTIFICATIONDATE = "LastVersionNotificationTime";
 
-    public VersionChecker(IVersionGetter versionGetter, Version currentVersion, IWindowsNotification notifier, ITempData tempDataProvider, string appName)
+    internal ITempData TempData => _tempDataProvider;
+
+    public VersionChecker(IVersionGetter versionGetter, Version currentVersion, INotificationSender notifier, ITempData tempDataProvider, string appName)
     {
         _versionGetter = versionGetter;
         _currentVersion = currentVersion;
@@ -34,9 +36,9 @@ public class VersionChecker
         _tempDataProvider.Write(LASTNOTIFICATIONDATE, DateTime.Now);
     }
 
-    public static VersionChecker Create(string repositoryOwner, string repositoryName, Version currentVersion, string appName, string? versionPrefix = null)
+    public static VersionChecker Create(string repositoryOwner, string repositoryName, Version currentVersion, string appName, string? versionPrefix = null, Func<Version, string>? versionFormatter = null)
     {
-        var getter = new GitHubVersionGetter(repositoryOwner, repositoryName, versionPrefix);
+        var getter = new GitHubVersionGetter(repositoryOwner, repositoryName, versionPrefix,  versionFormatter);
         var notifier = new NotificationSender(appName);
         var tempDataProvider = new FileBasedTempData($"{repositoryOwner}.{repositoryName}.tmp");
         return new VersionChecker(getter, currentVersion, notifier, tempDataProvider, appName);
