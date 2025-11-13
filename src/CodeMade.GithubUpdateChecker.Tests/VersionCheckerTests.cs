@@ -13,14 +13,14 @@ public class VersionCheckerTests
     private readonly Version _currentVersion = new(1,2, 3);
     private Mock<IVersionGetter> _versionGetter;
     private Mock<ITempData> _tempData;
-    private Mock<IWindowsNotification> _notifier;
-    private readonly Expression<Action<IWindowsNotification>> _notifierExpression = x=>x.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>());
+    private Mock<INotificationSender> _notifier;
+    private readonly Expression<Action<INotificationSender>> _notifierExpression = x=>x.Send(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>());
 
     [SetUp]
     public void Setup()
     {
         _versionGetter = new Mock<IVersionGetter>();
-        _notifier = new Mock<IWindowsNotification>();
+        _notifier = new Mock<INotificationSender>();
         _tempData = new Mock<ITempData>();
         _sut = new VersionChecker(_versionGetter.Object, _currentVersion, _notifier.Object, _tempData.Object, "MyApp");
         _versionGetter.Setup(x => x.GetReleaseUrl(It.IsAny<Version>())).Returns("http://foo.bar");

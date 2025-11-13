@@ -12,3 +12,4 @@ launchSettings.json
 Output
 .nuke/temp
 artifacts
+.idea
