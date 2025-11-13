@@ -139,3 +139,4 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 ### Credits
 Cross platform desktop notifications are implemented using the [NativeNotification](https://github.com/Jeric-X/NativeNotification) library
+
